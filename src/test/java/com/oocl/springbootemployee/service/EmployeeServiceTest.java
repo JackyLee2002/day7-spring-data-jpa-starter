@@ -107,7 +107,7 @@ class EmployeeServiceTest {
         //given
         Employee inactiveEmployee = new Employee(1, "Bob", 31, Gender.FEMALE, 8000.0);
         inactiveEmployee.setActive(false);
-        when(mockedEmployeeInMemoryRepository.findById(1)).thenReturn(inactiveEmployee);
+        when(mockedEmployeeRepository.findEmployeeById(any())).thenReturn(inactiveEmployee);
         //when
         //then
         assertThrows(EmployeeInactiveException.class, () -> employeeService.update(1, inactiveEmployee));

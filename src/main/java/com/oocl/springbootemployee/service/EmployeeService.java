@@ -51,12 +51,39 @@ public class EmployeeService {
         return employeeRepository.save(employee);
     }
 
+    private Employee updateEmployeeAttributes(Employee employeeStored, Employee newEmployee) {
+        if (newEmployee.getName() != null) {
+            employeeStored.setName(newEmployee.getName());
+        }
+        if (newEmployee.getAge() != null) {
+            employeeStored.setAge(newEmployee.getAge());
+        }
+        if (newEmployee.getGender() != null) {
+            employeeStored.setGender(newEmployee.getGender());
+        }
+        if (newEmployee.getSalary() != null) {
+            employeeStored.setSalary(newEmployee.getSalary());
+        }
+        return employeeStored;
+    }
+
     public Employee update(Integer employeeId , Employee employee) {
-        Employee employeeExisted = employeeInMemoryRepository.findById(employeeId);
-        if(!employeeExisted.getActive())
+        Employee employeeExisted = employeeRepository.findEmployeeById(employeeId);
+        if(Boolean.FALSE.equals(employeeExisted.getActive()))
             throw new EmployeeInactiveException();
 
-        return employeeInMemoryRepository.update(employeeId, employee);
+        Employee updatedEmployee = employeeRepository.findAll().stream()
+                .filter(storedEmployee -> storedEmployee.getId().equals(employeeId))
+                .findFirst()
+                .map(storedEmployee -> updateEmployeeAttributes(storedEmployee, employee))
+                .orElse(null);
+
+        if (updatedEmployee == null) {
+            return null;
+        }
+
+
+        return employeeRepository.save(updatedEmployee);
     }
 
     public void delete(Integer employeeId) {
