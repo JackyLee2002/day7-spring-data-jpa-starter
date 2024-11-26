@@ -33,8 +33,7 @@ public class EmployeeService {
     }
 
     public Page<Employee> findAll(Integer page, Integer pageSize) {
-        Pageable pageable = PageRequest.of(page, pageSize);
-
+        Pageable pageable = PageRequest.of(page-1, pageSize);
         return employeeRepository.findAll(pageable);
     }
 
