@@ -14,6 +14,4 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 
     List<Employee> findEmployeesByGender(Gender gender);
 
-    Employee findEmployeeById(Integer Id);
-
 }
