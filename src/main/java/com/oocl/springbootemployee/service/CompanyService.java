@@ -40,7 +40,7 @@ public class CompanyService {
     }
 
     public Company create(Company company) {
-        return companyInMemoryRepository.addCompany(company);
+        return companyRepository.save(company);
     }
 
     public Company update(Integer id, Company company) {
