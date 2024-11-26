@@ -51,39 +51,11 @@ public class EmployeeService {
         return employeeRepository.save(employee);
     }
 
-    private Employee updateEmployeeAttributes(Employee employeeStored, Employee newEmployee) {
-        if (newEmployee.getName() != null) {
-            employeeStored.setName(newEmployee.getName());
-        }
-        if (newEmployee.getAge() != null) {
-            employeeStored.setAge(newEmployee.getAge());
-        }
-        if (newEmployee.getGender() != null) {
-            employeeStored.setGender(newEmployee.getGender());
-        }
-        if (newEmployee.getSalary() != null) {
-            employeeStored.setSalary(newEmployee.getSalary());
-        }
-        return employeeStored;
-    }
-
     public Employee update(Integer employeeId , Employee employee) {
         Employee employeeExisted = employeeRepository.findEmployeeById(employeeId);
         if(Boolean.FALSE.equals(employeeExisted.getActive()))
             throw new EmployeeInactiveException();
-
-        Employee updatedEmployee = employeeRepository.findAll().stream()
-                .filter(storedEmployee -> storedEmployee.getId().equals(employeeId))
-                .findFirst()
-                .map(storedEmployee -> updateEmployeeAttributes(storedEmployee, employee))
-                .orElse(null);
-
-        if (updatedEmployee == null) {
-            return null;
-        }
-
-
-        return employeeRepository.save(updatedEmployee);
+        return employeeRepository.save(employee);
     }
 
     public void delete(Integer employeeId) {
