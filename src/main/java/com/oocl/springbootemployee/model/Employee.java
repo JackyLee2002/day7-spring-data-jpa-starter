@@ -69,4 +69,12 @@ public class Employee {
     public void setActive(Boolean active) {
         isActive = active;
     }
+
+    public Integer getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(Integer companyId) {
+        this.companyId = companyId;
+    }
 }
