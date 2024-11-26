@@ -50,7 +50,7 @@ public class EmployeeService {
     }
 
     public Employee update(Integer employeeId, Employee employee) {
-        Employee employeeExisted = employeeRepository.findEmployeeById(employeeId);
+        Employee employeeExisted = employeeRepository.findById(employeeId).orElseThrow(EmployeeNotFoundException::new);
         if (Boolean.FALSE.equals(employeeExisted.getActive()))
             throw new EmployeeInactiveException();
         return employeeRepository.save(employee);
