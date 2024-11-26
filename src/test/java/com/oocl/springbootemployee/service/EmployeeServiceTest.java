@@ -89,7 +89,7 @@ class EmployeeServiceTest {
         //when
         employeeService.create(lucy);
         /* then */
-        verify(mockedEmployeeInMemoryRepository).create(argThat(Employee::getActive));
+        verify(mockedEmployeeRepository).save(argThat(Employee::getActive));
     }
 
     @Test
