@@ -9,14 +9,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class CompanyService {
-    private final CompanyInMemoryRepository companyInMemoryRepository;
     private final CompanyRepository companyRepository;
 
-    public CompanyService(CompanyInMemoryRepository companyInMemoryRepository, CompanyRepository companyRepository) {
-        this.companyInMemoryRepository = companyInMemoryRepository;
+    public CompanyService(CompanyRepository companyRepository) {
         this.companyRepository = companyRepository;
     }
 
@@ -45,6 +44,10 @@ public class CompanyService {
 
     public Company update(Integer id, Company company) {
         final var getCompany = companyRepository.findById(id);
+
+        if (Objects.isNull(getCompany)) {
+            return null;
+        }
 
         return companyRepository.save(company);
     }
