@@ -1,6 +1,7 @@
 package com.oocl.springbootemployee.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasSize;
 
 //import static org.assertj.core.api.Assertions.assertThat;
 //import static org.hamcrest.Matchers.hasSize;
@@ -109,42 +110,41 @@ class CompanyControllerTest {
             .usingRecursiveFieldByFieldElementComparator()
             .isEqualTo(givenCompanies);
     }
-//
-//    @Test
-//    void should_return_paged_companies_when_get_by_page_params() throws Exception {
-//        // Given
-//        var pageIndex = 2;
-//        var pageSize = 2;
-//        final var the5thEmployeeCompanyInPage3 = companyRepository.findById(nexus_industries.getId());
-//
-//        // When
-//        // Then
-//        client.perform(MockMvcRequestBuilders.get(String.format("/companies?pageIndex=%s&pageSize=%s", pageIndex, pageSize)))
-//            .andExpect(MockMvcResultMatchers.status().isOk())
-//            .andExpect(MockMvcResultMatchers.jsonPath("$.content", hasSize(1)))
-//            .andExpect(MockMvcResultMatchers.jsonPath("$.content[0].id").value(the5thEmployeeCompanyInPage3.get().getId()))
-//            .andExpect(MockMvcResultMatchers.jsonPath("$.content[0].name").value(the5thEmployeeCompanyInPage3.get().getName()));
-//    }
-//
-//    @Test
-//    void should_return_employees_when_get_employees_under_the_company() throws Exception {
-//        // Given
-//        var givenCompanyId = acme_corporation.getId() ;
-//
-//        // When
-//        final var result =
-//            client.perform(MockMvcRequestBuilders.get("/companies/" + givenCompanyId + "/employees")).andReturn();
-//
-//        // Then
-//        assertThat(result.getResponse().getStatus()).isEqualTo(HttpStatus.OK.value());
-//        assertThat(result.getResponse().getContentType()).isEqualTo(MediaType.APPLICATION_JSON.toString());
-//        final List<Employee> fetchedEmployees =
-//            employeeListJacksonTester.parseObject(result.getResponse().getContentAsString());
-//
+
+    @Test
+    void should_return_paged_companies_when_get_by_page_params() throws Exception {
+        // Given
+        var pageIndex = 2;
+        var pageSize = 2;
+        final var the5thEmployeeCompanyInPage3 = companyRepository.findById(nexus_industries.getId());
+        // When
+        // Then
+        client.perform(MockMvcRequestBuilders.get(String.format("/companies?pageIndex=%s&pageSize=%s", pageIndex, pageSize)))
+            .andExpect(MockMvcResultMatchers.status().isOk())
+            .andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(1)))
+            .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value(the5thEmployeeCompanyInPage3.get().getId()))
+            .andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value(the5thEmployeeCompanyInPage3.get().getName()));
+    }
+
+    @Test
+    void should_return_employees_when_get_employees_under_the_company() throws Exception {
+        // Given
+        var givenCompanyId = acme_corporation.getId() ;
+
+        // When
+        final var result =
+            client.perform(MockMvcRequestBuilders.get("/companies/" + givenCompanyId + "/employees")).andReturn();
+
+        // Then
+        assertThat(result.getResponse().getStatus()).isEqualTo(HttpStatus.OK.value());
+        assertThat(result.getResponse().getContentType()).isEqualTo(MediaType.APPLICATION_JSON.toString());
+        final List<Employee> fetchedEmployees =
+            employeeListJacksonTester.parseObject(result.getResponse().getContentAsString());
+
 //        assertThat(fetchedEmployees).hasSize(2);
-//        assertThat(fetchedEmployees.stream().map(Employee::getId).toList())
-//            .containsAll(List.of(john_smith.getId(),jane_johnson.getId()));
-//    }
+        assertThat(fetchedEmployees.stream().map(Employee::getId).toList())
+            .containsAll(List.of(john_smith.getId(),jane_johnson.getId()));
+    }
 //
 //    @Test
 //    void should_return_company_when_get_by_id() throws Exception {
