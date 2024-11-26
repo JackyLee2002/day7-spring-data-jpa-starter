@@ -33,7 +33,7 @@ public class EmployeeService {
     }
 
     public Employee findById(Integer employeeId) {
-        return employeeRepository.findEmployeeById(employeeId);
+        return employeeInMemoryRepository.findById(employeeId);
     }
 
     public Employee create(Employee employee) {
@@ -43,7 +43,7 @@ public class EmployeeService {
             throw new EmployeeAgeSalaryNotMatchedException();
 
         employee.setActive(true);
-        return employeeRepository.save(employee);
+        return employeeInMemoryRepository.create(employee);
     }
 
     public Employee update(Integer employeeId , Employee employee) {
