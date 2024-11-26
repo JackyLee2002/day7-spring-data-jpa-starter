@@ -142,7 +142,7 @@ class CompanyControllerTest {
         final List<Employee> fetchedEmployees =
             employeeListJacksonTester.parseObject(result.getResponse().getContentAsString());
 
-//        assertThat(fetchedEmployees).hasSize(2);
+        assertThat(fetchedEmployees).hasSize(2);
         assertThat(fetchedEmployees.stream().map(Employee::getId).toList())
             .containsAll(List.of(john_smith.getId(),jane_johnson.getId()));
     }
