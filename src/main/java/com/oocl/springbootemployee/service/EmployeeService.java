@@ -5,30 +5,30 @@ import com.oocl.springbootemployee.exception.EmployeeAgeSalaryNotMatchedExceptio
 import com.oocl.springbootemployee.exception.EmployeeInactiveException;
 import com.oocl.springbootemployee.model.Employee;
 import com.oocl.springbootemployee.model.Gender;
-import com.oocl.springbootemployee.repository.EmployeeRepository;
+import com.oocl.springbootemployee.repository.EmployeeInMemoryRepository;
 import java.util.List;
 import org.springframework.stereotype.Service;
 @Service
 public class EmployeeService {
-    private final EmployeeRepository employeeRepository;
-    public EmployeeService(EmployeeRepository employeeRepository) {
-        this.employeeRepository = employeeRepository;
+    private final EmployeeInMemoryRepository employeeInMemoryRepository;
+    public EmployeeService(EmployeeInMemoryRepository employeeInMemoryRepository) {
+        this.employeeInMemoryRepository = employeeInMemoryRepository;
     }
 
     public List<Employee> findAll() {
-        return employeeRepository.findAll();
+        return employeeInMemoryRepository.findAll();
     }
 
     public List<Employee> findAll(Gender gender) {
-        return employeeRepository.findAllByGender(gender);
+        return employeeInMemoryRepository.findAllByGender(gender);
     }
 
     public List<Employee> findAll(Integer page, Integer pageSize) {
-        return employeeRepository.findAllByPage(page, pageSize);
+        return employeeInMemoryRepository.findAllByPage(page, pageSize);
     }
 
     public Employee findById(Integer employeeId) {
-        return employeeRepository.findById(employeeId);
+        return employeeInMemoryRepository.findById(employeeId);
     }
 
     public Employee create(Employee employee) {
@@ -38,18 +38,18 @@ public class EmployeeService {
             throw new EmployeeAgeSalaryNotMatchedException();
 
         employee.setActive(true);
-        return employeeRepository.create(employee);
+        return employeeInMemoryRepository.create(employee);
     }
 
     public Employee update(Integer employeeId , Employee employee) {
-        Employee employeeExisted = employeeRepository.findById(employeeId);
+        Employee employeeExisted = employeeInMemoryRepository.findById(employeeId);
         if(!employeeExisted.getActive())
             throw new EmployeeInactiveException();
 
-        return employeeRepository.update(employeeId, employee);
+        return employeeInMemoryRepository.update(employeeId, employee);
     }
 
     public void delete(Integer employeeId) {
-        employeeRepository.deleteById(employeeId);
+        employeeInMemoryRepository.deleteById(employeeId);
     }
 }
