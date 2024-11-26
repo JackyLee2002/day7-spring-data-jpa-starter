@@ -55,6 +55,6 @@ public class EmployeeService {
     }
 
     public void delete(Integer employeeId) {
-        employeeInMemoryRepository.deleteById(employeeId);
+        employeeRepository.deleteById(employeeId);
     }
 }
