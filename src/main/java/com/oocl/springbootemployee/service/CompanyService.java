@@ -1,5 +1,6 @@
 package com.oocl.springbootemployee.service;
 
+import com.oocl.springbootemployee.exception.CompanyNotFoundException;
 import com.oocl.springbootemployee.model.Company;
 import com.oocl.springbootemployee.model.Employee;
 import com.oocl.springbootemployee.repository.CompanyRepository;
@@ -42,10 +43,10 @@ public class CompanyService {
     }
 
     public Company update(Integer id, Company company) {
-        final var getCompany = companyRepository.findById(id);
+        final var getCompany = companyRepository.findById(id).orElse(null);
 
         if (Objects.isNull(getCompany)) {
-            return null;
+            throw new CompanyNotFoundException();
         }
 
         return companyRepository.save(company);
