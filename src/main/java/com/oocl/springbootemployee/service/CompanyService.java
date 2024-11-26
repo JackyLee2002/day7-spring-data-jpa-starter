@@ -20,7 +20,7 @@ public class CompanyService {
         this.companyRepository = companyRepository;
     }
 
-    public List<Company> findAll(){
+    public List<Company> findAll() {
         return companyRepository.findAll();
     }
 
@@ -45,9 +45,6 @@ public class CompanyService {
 
     public Company update(Integer id, Company company) {
         final var getCompany = companyRepository.findById(id);
-        if (getCompany == null) {
-            return null;
-        }
 
         return companyRepository.save(company);
     }

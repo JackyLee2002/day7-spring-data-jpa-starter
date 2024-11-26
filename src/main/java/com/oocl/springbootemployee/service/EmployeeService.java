@@ -6,14 +6,14 @@ import com.oocl.springbootemployee.exception.EmployeeInactiveException;
 import com.oocl.springbootemployee.model.Employee;
 import com.oocl.springbootemployee.model.Gender;
 import com.oocl.springbootemployee.repository.EmployeeInMemoryRepository;
-
-import java.util.List;
-
 import com.oocl.springbootemployee.repository.EmployeeRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+
 @Service
 public class EmployeeService {
     private final EmployeeInMemoryRepository employeeInMemoryRepository;
@@ -33,7 +33,7 @@ public class EmployeeService {
     }
 
     public Page<Employee> findAll(Integer page, Integer pageSize) {
-        Pageable pageable = PageRequest.of(page-1, pageSize);
+        Pageable pageable = PageRequest.of(page - 1, pageSize);
         return employeeRepository.findAll(pageable);
     }
 
@@ -42,18 +42,18 @@ public class EmployeeService {
     }
 
     public Employee create(Employee employee) {
-        if(employee.getAge() < 18 || employee.getAge() > 65)
+        if (employee.getAge() < 18 || employee.getAge() > 65)
             throw new EmployeeAgeNotValidException();
-        if(employee.getAge() >= 30 && employee.getSalary() < 20000.0)
+        if (employee.getAge() >= 30 && employee.getSalary() < 20000.0)
             throw new EmployeeAgeSalaryNotMatchedException();
 
         employee.setActive(true);
         return employeeRepository.save(employee);
     }
 
-    public Employee update(Integer employeeId , Employee employee) {
+    public Employee update(Integer employeeId, Employee employee) {
         Employee employeeExisted = employeeRepository.findEmployeeById(employeeId);
-        if(Boolean.FALSE.equals(employeeExisted.getActive()))
+        if (Boolean.FALSE.equals(employeeExisted.getActive()))
             throw new EmployeeInactiveException();
         return employeeRepository.save(employee);
     }
